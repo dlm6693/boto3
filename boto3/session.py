@@ -13,6 +13,8 @@
 
 import copy
 import os
+import zipfile
+from pathlib import Path, PurePosixPath
 
 import botocore.session
 from botocore.client import Config
@@ -129,9 +131,14 @@ class Session:
         Setup loader paths so that we can load resources.
         """
         self._loader = self._session.get_component('data_loader')
-        self._loader.search_paths.append(
-            os.path.join(os.path.dirname(__file__), 'data')
-        )
+        parents = Path(__file__).parents
+        parent = parents[0]
+        grandparent = parents[1]
+        if zipfile.is_zipfile(grandparent):
+            search_path = str(PurePosixPath(__file__).relative_to(grandparent))
+            self._loader.search_paths.append((grandparent, search_path))
+        else:
+            self._loader.search_paths.append(os.path.join(parent, 'data'))
 
     def get_available_services(self):
         """
