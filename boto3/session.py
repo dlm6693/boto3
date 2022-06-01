@@ -17,6 +17,8 @@ import os
 import botocore.session
 from botocore.client import Config
 from botocore.exceptions import DataNotFoundError, UnknownServiceError
+from botocore.loaders import Loader
+from importlib_resources import files
 
 import boto3
 import boto3.utils
@@ -129,9 +131,12 @@ class Session:
         Setup loader paths so that we can load resources.
         """
         self._loader = self._session.get_component('data_loader')
-        self._loader.search_paths.append(
-            os.path.join(os.path.dirname(__file__), 'data')
-        )
+        if isinstance(self._loader, Loader):
+            self._loader.search_paths.append(
+                os.path.join(os.path.dirname(__file__), 'data')
+            )
+        else:
+            self._loader.search_paths.append(files('boto3').joinpath('data'))
 
     def get_available_services(self):
         """
