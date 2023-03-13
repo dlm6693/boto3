@@ -12,3 +12,9 @@ src_paths = ["boto3", "tests"]
 [tool.black]
 line-length = 79
 skip_string_normalization = true
+
+[tool.codespell]
+skip = """\
+    ./docs/source/_static/shortbreadv1.js,\
+    ./CHANGELOG.rst,\
+"""
