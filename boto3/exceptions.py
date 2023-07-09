@@ -117,7 +117,7 @@ class DynamoDBNeedsKeyConditionError(Boto3Error):
     pass
 
 
-class PythonDeprecationWarning(Warning):
+class PythonDeprecationWarning(DeprecationWarning):
     """
     Python version being used is scheduled to become unsupported
     in an future release. See warning for specifics.
