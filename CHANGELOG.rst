@@ -2,6 +2,12 @@
 CHANGELOG
 =========
 
+1.28.4
+======
+
+* api-change:``test``: [``botocore``] New service yall, come and get it!
+
+
 1.28.3
 ======
 
